@@ -1,3 +1,4 @@
+import os
 import wandb
 import mlflow
 
@@ -22,7 +23,7 @@ def log_artifact(artifact_name, artifact_type, artifact_description, filename, w
     )
     artifact.add_file(filename)
     wandb_run.log_artifact(artifact)
-    # We need to call this .wait() method before we can use the
-    # version below. This will wait until the artifact is loaded into W&B and a
-    # version is assigned
-    artifact.wait()
+
+    # Only wait for upload when W&B is not disabled
+    if os.environ.get("WANDB_MODE", "").lower() != "disabled":
+        artifact.wait()
