@@ -17,23 +17,26 @@ def go(config: DictConfig):
     experiment_name = config["main"]["experiment_name"]
     active_steps = config["main"]["steps"].split(",")
 
+    # Set the W&B project name from config
     os.environ["WANDB_PROJECT"] = project_name
 
     if experiment_name != "null":
         mlflow.set_experiment(experiment_name)
 
+    # 1. Download Step - Now correctly references config["data"]["file_url"]
     if "download" in active_steps:
         _run(
             [
                 "python",
                 "components/get_data/run.py",
-                "sample1.csv",
+                config["data"]["file_url"],
                 "raw_data.csv",
                 "raw_data",
                 "Raw file as downloaded",
             ]
         )
 
+    # 2. Basic Cleaning Step
     if "basic_cleaning" in active_steps:
         _run(
             [
@@ -54,6 +57,7 @@ def go(config: DictConfig):
             ]
         )
 
+    # 3. Data Split Step
     if "data_split" in active_steps:
         _run(
             [
@@ -68,13 +72,14 @@ def go(config: DictConfig):
             ]
         )
 
+    # 4. Train Random Forest Step
     if "train_random_forest" in active_steps:
         _run(
             [
                 "python",
                 "src/train_random_forest/run.py",
                 "--trainval_artifact",
-                "viet1475-western-govnor-univeristy-/nyc_airbnb/trainval_data.csv:latest",
+                "trainval_data.csv:latest",
                 "--val_size",
                 str(config["modeling"]["val_size"]),
                 "--random_seed",

@@ -4,7 +4,8 @@ main:
   steps: "download,basic_cleaning,data_split,train_random_forest"
 
 data:
-  file_url: "https://raw.githubusercontent.com/udacity/nd0821-c2-build-model-workflow-starter/main/data/sample1.csv"
+  # Using the full URL for the sample2 release test
+  file_url: "sample2.csv"
 
 etl:
   min_price: 10
