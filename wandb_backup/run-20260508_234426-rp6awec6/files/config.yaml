@@ -1,0 +1,55 @@
+_wandb:
+    value:
+        cli_version: 0.26.1
+        e:
+            lvb6bko327x68mpqu0u16mlw8ud423yx:
+                args:
+                    - nyc_airbnb/clean_sample.csv:latest
+                    - "0.2"
+                    - --random_seed
+                    - "42"
+                    - --stratify_by
+                    - neighbourhood_group
+                codePath: components/train_val_test_split/run.py
+                codePathLocal: components/train_val_test_split/run.py
+                cpu_count: 8
+                cpu_count_logical: 16
+                disk:
+                    /:
+                        total: "2160158191616"
+                        used: "504583360512"
+                email: viet1475@gmail.com
+                executable: /workspace/Project-Build-an-ML-Pipeline-Starter/venv/bin/python
+                git:
+                    commit: 29454a025ba93aa652a7ef7caed5e1aa58681fbb
+                    remote: https://github.com/silver1475/Project-Build-an-ML-Pipeline-Starter.git
+                host: 8e67ba7f14e90f7b283e7a713501e1f1b980ccf3-86b49ffd97-wbkch
+                memory:
+                    total: "135077654528"
+                os: Linux-6.6.97+-x86_64-with-glibc2.31
+                program: /workspace/Project-Build-an-ML-Pipeline-Starter/components/train_val_test_split/run.py
+                python: CPython 3.10.13
+                root: /workspace/Project-Build-an-ML-Pipeline-Starter
+                startedAt: "2026-05-08T23:44:26.395420Z"
+                writerId: lvb6bko327x68mpqu0u16mlw8ud423yx
+        m: []
+        python_version: 3.10.13
+        t:
+            "1":
+                - 5
+                - 53
+            "2":
+                - 5
+                - 53
+            "4": 3.10.13
+            "5": 0.26.1
+            "12": 0.26.1
+            "13": linux-x86_64
+input:
+    value: nyc_airbnb/clean_sample.csv:latest
+random_seed:
+    value: 42
+stratify_by:
+    value: neighbourhood_group
+test_size:
+    value: 0.2

@@ -5,10 +5,16 @@ This script splits the provided dataframe into trainval and test
 import argparse
 import logging
 import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import pandas as pd
 import wandb
 from sklearn.model_selection import train_test_split
 from wandb_utils.log_artifact import log_artifact
+
+
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()

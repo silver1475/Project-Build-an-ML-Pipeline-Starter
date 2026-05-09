@@ -1,36 +1,46 @@
 import os
 import subprocess
+import mlflow
 import hydra
+from omegaconf import DictConfig
+
+
+def _run(cmd):
+    print("Running:", " ".join(cmd))
+    subprocess.run(cmd, check=True)
 
 
 @hydra.main(config_path=".", config_name="config", version_base=None)
-def go(config):
+def go(config: DictConfig):
 
-    root_path = hydra.utils.get_original_cwd()
-    python = os.path.join(root_path, "venv", "bin", "python")
+    project_name = config["main"]["project_name"]
+    experiment_name = config["main"]["experiment_name"]
+    active_steps = config["main"]["steps"].split(",")
 
-    steps = config["main"]["steps"].split(",")
+    os.environ["WANDB_PROJECT"] = project_name
 
-    if "download" in steps:
-        subprocess.run(
+    if experiment_name != "null":
+        mlflow.set_experiment(experiment_name)
+
+    if "download" in active_steps:
+        _run(
             [
-                python,
-                os.path.join(root_path, "components", "get_data", "run.py"),
+                "python",
+                "components/get_data/run.py",
                 "sample1.csv",
                 "raw_data.csv",
                 "raw_data",
                 "Raw file as downloaded",
-            ],
-            check=True,
+            ]
         )
 
-    if "basic_cleaning" in steps:
-        subprocess.run(
+    if "basic_cleaning" in active_steps:
+        _run(
             [
-                python,
-                os.path.join(root_path, "src", "basic_cleaning", "run.py"),
+                "python",
+                "src/basic_cleaning/run.py",
                 "--input_artifact",
-                f"{config['main']['project_name']}/raw_data.csv:latest",
+                "raw_data.csv:latest",
                 "--output_artifact",
                 "clean_sample.csv",
                 "--output_type",
@@ -41,23 +51,43 @@ def go(config):
                 str(config["etl"]["min_price"]),
                 "--max_price",
                 str(config["etl"]["max_price"]),
-            ],
-            check=True,
+            ]
         )
 
-    if "data_split" in steps:
-        subprocess.run(
+    if "data_split" in active_steps:
+        _run(
             [
-                python,
-                os.path.join(root_path, "components", "train_val_test_split", "run.py"),
-                f"{config['main']['project_name']}/clean_sample.csv:latest",
+                "python",
+                "components/train_val_test_split/run.py",
+                "clean_sample.csv:latest",
                 str(config["modeling"]["test_size"]),
                 "--random_seed",
                 str(config["modeling"]["random_seed"]),
                 "--stratify_by",
                 config["modeling"]["stratify_by"],
-            ],
-            check=True,
+            ]
+        )
+
+    if "train_random_forest" in active_steps:
+        _run(
+            [
+                "python",
+                "src/train_random_forest/run.py",
+                "--trainval_artifact",
+                "viet1475-western-govnor-univeristy-/nyc_airbnb/trainval_data.csv:latest",
+                "--val_size",
+                str(config["modeling"]["val_size"]),
+                "--random_seed",
+                str(config["modeling"]["random_seed"]),
+                "--stratify_by",
+                config["modeling"]["stratify_by"],
+                "--max_tfidf_features",
+                str(config["modeling"]["max_tfidf_features"]),
+                "--rf_config",
+                "src/train_random_forest/rf_config.json",
+                "--output_artifact",
+                "random_forest_export",
+            ]
         )
 
 

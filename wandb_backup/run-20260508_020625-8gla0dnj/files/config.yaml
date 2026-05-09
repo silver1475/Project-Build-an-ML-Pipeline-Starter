@@ -1,0 +1,38 @@
+_wandb:
+    value:
+        cli_version: 0.26.1
+        e:
+            vtae8y26s3hmz5fyzjyicaqo75rolmxj:
+                args:
+                    - sample1.csv
+                    - raw_data.csv
+                    - raw_data
+                    - Raw file as downloaded
+                codePath: components/get_data/run.py
+                codePathLocal: components/get_data/run.py
+                cpu_count: 8
+                cpu_count_logical: 16
+                disk:
+                    /:
+                        total: "2160158191616"
+                        used: "625429176320"
+                executable: /workspace/Project-Build-an-ML-Pipeline-Starter/venv/bin/python
+                git:
+                    commit: 4bfb05b6ee52f454021084453e269de66e9fb5fa
+                    remote: https://github.com/silver1475/Project-Build-an-ML-Pipeline-Starter.git
+                host: 8e67ba7f14e90f7b283e7a713501e1f1b980ccf3-c9b9445fb-dphpf
+                memory:
+                    total: "135077654528"
+                os: Linux-6.6.97+-x86_64-with-glibc2.31
+                program: /workspace/Project-Build-an-ML-Pipeline-Starter/components/get_data/run.py
+                python: CPython 3.10.13
+                root: /workspace/Project-Build-an-ML-Pipeline-Starter
+                startedAt: "2026-05-08T02:06:25.765376Z"
+                writerId: vtae8y26s3hmz5fyzjyicaqo75rolmxj
+        m: []
+        python_version: 3.10.13
+        t:
+            "4": 3.10.13
+            "5": 0.26.1
+            "12": 0.26.1
+            "13": linux-x86_64
